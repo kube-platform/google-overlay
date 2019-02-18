@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+spec:
+  template:
+    spec:
+      containers:
+      - name: external-dns
+        args:
+        - --domain-filter=$(DOMAIN)
+        - --google-project=$(PROJECT)
+        - --provider=google
+        - --txt-owner-id=$(DOMAIN)
+        - --source=service
+        - --source=ingress
+        envFrom:
+        - configMapRef:
+            name: kubeplatform-config

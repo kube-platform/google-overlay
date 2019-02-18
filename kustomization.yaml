@@ -1,0 +1,50 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+- git@github.com:kube-platform/base?ref=v0.0.1
+# extensions to the base deployments
+- git@github.com:kube-platform/base-extras/argo?ref=v0.0.1
+
+patchesStrategicMerge:
+# changes external-dns arguments
+- patches/external-dns-patch.yaml
+# chages oauth2_proxy for using keycloak as oidc provider
+- patches/oauth2-proxy-patch.yaml
+# adds email
+- cluster-issuer-patch.yaml
+
+secretGenerator:
+- name: external-dns-credentials
+  files:
+  - credentials.json=google-credentials.json
+  type: Opaque
+- name: oauth2-proxy
+  env: oauth2-proxy.properties
+  type: Opaque
+# sets the keycloak default admin password
+- name: keycloak-http
+  literals:	
+  - password=CtL5OxUHLe
+  type: Opaque
+
+configMapGenerator:
+- name: kubeplatform-config
+  env: kubeplatform.properties
+
+###########################
+# Kubernetes configuration
+###########################
+
+vars:
+# using letsencrypt-staging for staging environment
+- name: CLUSTER_ISSUER_NAME
+  objref:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+    apiVersion: certmanager.k8s.io/v1alpha1
+
+# setup namespace (must exist) and prefix, suffix
+namePrefix: demo-
+nameSuffix: -v1
+namespace: kubeplatform
