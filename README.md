@@ -97,14 +97,16 @@ Configuration is made in these three files:
   - Enter the GCE project (e.g. ```PROJECT=my-google-project-223304```)
 - __cluster-issuer-patch.yaml__
   - Enter two email adresses for Letsencrypt certificate. One for staging and one (or the same) for prod.
-- __kustomization.yaml__ for ```namePrefix```, ```nameSuffix``` and ```namespace```
+- __kustomization.yaml__ 
+  - Choose ```namePrefix```, ```nameSuffix``` and ```namespace```
+  - If you plan to use letencrypt `prod` environment instead of `staging`, change var `CLUSTER_ISSUER_NAME` accordingly
 
 ### Installing yamls
 
 1. create Kubernetes cluster and retrieve kubectl [credentials](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials)
 1. ```kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=my@google.account.com```
-1. create namespace
-1. ```kustomize build google-overlay | kubectl apply -f -```
+1. create namespace you have chosen above
+1. execute ```kustomize build google-overlay | kubectl apply -f -```
 
 ### Finalize
 
@@ -113,7 +115,7 @@ Wait until your PODs are running
 Setup a User in Keycloak:
 
 1. A call to https://keycloak.$(DOMAIN)/auth/admin/ should point you to your Keycloak instance (usename is ```keycloak``` password refer to your kustomization.yaml)
-1. Add a user of your choice in Manage/Users (must have an email adress)
+1. Add a user of your choice in Manage/Users (must have an email adress). Please refer to the respective keycloak documentation
 
 You should then be able to use this user to go to:
 
