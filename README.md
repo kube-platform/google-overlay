@@ -102,7 +102,7 @@ Configuration is made in these three files:
 ### Installing yamls
 
 1. create Kubernetes cluster and retrieve kubectl [credentials](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials)
-1. ```kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=my@goolge.account.com```
+1. ```kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=my@google.account.com```
 1. create namespace
 1. ```kustomize build google-overlay | kubectl apply -f -```
 
