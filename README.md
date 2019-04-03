@@ -71,7 +71,7 @@ gcloud dns managed-zones create "${DOMAIN//./-}" \
 gcloud iam service-accounts create ${DOMAIN//./-} \
     --display-name "${DOMAIN//./-} service account for external-dns"
 
-gcloud iam service-accounts keys create ./google-credentails.json \
+gcloud iam service-accounts keys create ./google-credentials.json \
   --iam-account ${DOMAIN//./-}@$PROJECT_ID.iam.gserviceaccount.com
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
