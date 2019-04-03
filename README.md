@@ -48,7 +48,7 @@ Add these paramteres to:
 
 ## Installation
 
-The installation consists basically of two parts
+The installation consists basically of these parts
 
 1. GCE configuration
 1. Overlay Configuration
@@ -78,7 +78,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member serviceAccount:${DOMAIN//./-}@$PROJECT_ID.iam.gserviceaccount.com --role roles/dns.admin
 ```
 
-2. Ensure that the downloaded credential file: ```google-credentails.json``` is this folder
+2. Ensure that the downloaded credential file `google-credentails.json` is the `google-overlay` folder
 3. Make a note of the nameservers that were assigned to your new DNS zone (and enter them as NS entries in your providers DNS):
 
 ```bash
