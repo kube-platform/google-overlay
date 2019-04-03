@@ -24,7 +24,7 @@ secretGenerator:
   type: Opaque
 # sets the keycloak default admin password
 - name: keycloak-http
-  literals:	
+  literals:
   - password=CtL5OxUHLe
   type: Opaque
 
