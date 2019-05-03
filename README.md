@@ -67,15 +67,18 @@ export DOMAIN=kubeplatform.my.domain.io
 gcloud dns managed-zones create "${DOMAIN//./-}" \
     --dns-name "$DOMAIN." \
     --description "Automatically managed zone by kubernetes.io/external-dns"
+    --project $PROJECT_ID
 
 gcloud iam service-accounts create ${DOMAIN//./-} \
-    --display-name "${DOMAIN//./-} service account for external-dns"
+    --display-name "${DOMAIN//./-} service account for external-dns" \
+    --project $PROJECT_ID
 
 gcloud iam service-accounts keys create ./google-credentials.json \
-  --iam-account ${DOMAIN//./-}@$PROJECT_ID.iam.gserviceaccount.com
+  --iam-account ${DOMAIN//./-}@$PROJECT_ID.iam.gserviceaccount.com \
+  --project $PROJECT_ID
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member serviceAccount:${DOMAIN//./-}@$PROJECT_ID.iam.gserviceaccount.com --role roles/dns.admin
+    --member serviceAccount:${DOMAIN//./-}@$PROJECT_ID.iam.gserviceaccount.com --role roles/dns.admin 
 ```
 
 2. Ensure that the downloaded credential file `google-credentails.json` is the `google-overlay` folder
@@ -85,7 +88,8 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 gcloud dns record-sets list \
     --zone "${DOMAIN//./-}" \
     --name "$DOMAIN." \
-    --type NS
+    --type NS \
+    --project $PROJECT_ID
 ```
 
 ### Overlay Configuration
