@@ -1,16 +1,16 @@
 # Kube-Platform
 
-Create production ready Development Platform for Kubernetes. It containes tools for:
+Create production-ready Development Platform for Kubernetes. It contains tools for:
 
 - Monitoring, Alerting, Logging
 - Ingress based adding of DNS entries and TLS Certificates
 - Oauth based authentication
-- CI/CD tool
+- CI/CD
 
 In detail - installed tools are:
 
-- Ingress Controller
-- Prometheus mit node-exporter, Grafana, Alert Manager, kube-state-metrics etc.
+- nginx Ingress Controller
+- Prometheus (+ node-exporter), Grafana, Alert Manager, kube-state-metrics, etc.
 - EFK Stack
 - External DNS
 - cert-manager
@@ -27,13 +27,13 @@ In detail - installed tools are:
 
 What you need to know now:
 
-- An Email Adress for HTTPS-Certificate issues
-- Your new DNS zone name (e.g. ```kubeplatform.my.domain.io```)
+- An email address for issuing tls certificates
+- A DNS zone name (e.g. ```kubeplatform.my.domain.io```)
 - A GCP project ID (e.g. ```my-google-project-223304```)
 
-### Own OAUTH provider
+### Own OAuth provider
 
-KubePlatform comes with a preconfigured KeyCloak used for user management and oauth2 authentication. If you plan to use your own oauth provider, collect these parameters:
+KubePlatform comes with preconfigured Keycloak used for user management and oauth2 authentication. If you plan to use your own OAuth provider, collect these parameters:
 
 - An Issuer URL for OpenID Connect
 - Client ID and its client secret
@@ -52,7 +52,7 @@ The installation consists basically of these parts
 
 1. GCE configuration
 1. Overlay Configuration
-1. Installing yamls on Kubernetes
+1. Applying yamls to Kubernetes
 
 ### GCE configuration
 
@@ -81,7 +81,7 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member serviceAccount:${DOMAIN//./-}@$PROJECT_ID.iam.gserviceaccount.com --role roles/dns.admin 
 ```
 
-2. Ensure that the downloaded credential file `google-credentails.json` is the `google-overlay` folder
+2. Ensure that the downloaded credential file `google-credentails.json` is present in the `google-overlay` folder
 3. Make a note of the nameservers that were assigned to your new DNS zone (and enter them as NS entries in your providers DNS):
 
 ```bash
@@ -94,32 +94,32 @@ gcloud dns record-sets list \
 
 ### Overlay Configuration
 
-Configuration is made in these three files:
+The configuration is made in these three files:
 
 - __kubeplatform.properties__
   - Enter the desired domain (e.g. ```DOMAIN=kubeplatform.my.domain.io```)
   - Enter the GCE project (e.g. ```PROJECT=my-google-project-223304```)
 - __cluster-issuer-patch.yaml__
-  - Enter two email adresses for Letsencrypt certificate. One for staging and one (or the same) for prod.
+  - Enter two email addresses for Letsencrypt certificate. One for staging and one (or the same) for prod.
 - __kustomization.yaml__ 
   - Choose ```namePrefix```, ```nameSuffix``` and ```namespace```
-  - If you plan to use letencrypt `prod` environment instead of `staging`, change var `CLUSTER_ISSUER_NAME` accordingly. **Note:** If you switch from `staging` to `prod`, delete already present staging certificates, so that the cert-manager issues new certificates.
+  - If you plan to use let's encrypt `prod` environment instead of `staging`, change var `CLUSTER_ISSUER_NAME` accordingly. **Note:** If you switch from `staging` to `prod`, delete already present staging certificates so that the cert-manager issues new certificates.
 
 ### Installing yamls
 
-1. create Kubernetes cluster and retrieve kubectl [credentials](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials)
+1. Create a Kubernetes cluster and retrieve kubectl [credentials](https://cloud.google.com/sdk/gcloud/reference/container/clusters/get-credentials)
 1. ```kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=my@google.account.com```
-1. create namespace you have chosen above
-1. execute ```kustomize build google-overlay | kubectl apply -f -```
+1. Create namespace you have chosen above
+1. Execute ```kustomize build google-overlay | kubectl apply -f -```
 
 ### Finalize
 
-Wait until your PODs are running
+Wait until your Pods are running
 
-Setup a User in Keycloak:
+Setup a user in Keycloak:
 
-1. A call to https://keycloak.$(DOMAIN)/auth/admin/ should point you to your Keycloak instance (usename is ```keycloak``` password refer to your kustomization.yaml)
-1. Add a user of your choice in Manage/Users (must have an email adress). Please refer to the respective keycloak documentation
+1. A call to https://keycloak.$(DOMAIN)/auth/admin/ should point you to your Keycloak instance (username is ```keycloak```, for the password refer to your kustomization.yaml)
+1. Add a user of your choice in Manage/Users (must have an email address). Please refer to the respective keycloak documentation
 
 You should then be able to use this user to go to:
 
