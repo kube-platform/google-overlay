@@ -103,7 +103,7 @@ Configuration is made in these three files:
   - Enter two email adresses for Letsencrypt certificate. One for staging and one (or the same) for prod.
 - __kustomization.yaml__ 
   - Choose ```namePrefix```, ```nameSuffix``` and ```namespace```
-  - If you plan to use letencrypt `prod` environment instead of `staging`, change var `CLUSTER_ISSUER_NAME` accordingly
+  - If you plan to use letencrypt `prod` environment instead of `staging`, change var `CLUSTER_ISSUER_NAME` accordingly. **Note:** If you switch from `staging` to `prod`, delete already present staging certificates, so that the cert-manager issues new certificates.
 
 ### Installing yamls
 
