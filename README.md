@@ -21,7 +21,7 @@ In detail - installed tools are:
 ## Precondition
 
 - Installed [kustomize 2.0.1](https://github.com/kubernetes-sigs/kustomize/releases)
-- Running GKE Kubernetes Cluster with at least ```n1-standard-2``` machines
+- Running GKE Kubernetes Cluster with at least 3 instances of ```n1-standard-2``` worker nodes.
 
 ## Configuration
 
