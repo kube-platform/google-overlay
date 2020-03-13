@@ -42,7 +42,7 @@ vars:
   objref:
     kind: ClusterIssuer
     name: letsencrypt-staging
-    apiVersion: certmanager.k8s.io/v1alpha1
+    apiVersion: cert-manager.io/v1alpha2
 
 # setup namespace (must exist) and prefix, suffix
 namePrefix: demo-
