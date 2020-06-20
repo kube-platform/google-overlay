@@ -25,4 +25,4 @@ Visit the [KubePlatform component description](https://kube-platform.github.io/d
 - A GKE Kubernetes Cluster with at least 3 instances of ```n1-standard-2``` worker nodes is required
 
 ## Installation
-The tutorial [Getting Started on GKE](https://kube-platform.github.io/docs/tutorial/) is a step-by-step walkthrough for installing KubePlatform on GKE/GCP in 10 minutes.
+The tutorial [Getting Started on GKE](https://kubeplatform.dev/getting-started/) is a step-by-step walkthrough for installing KubePlatform on GKE/GCP in 10 minutes.
