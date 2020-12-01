@@ -1,6 +1,6 @@
 # Kube-Platform
 
-Create production ready Development Platform for Kubernetes. It containes tools for:
+Create production ready Development Platform for Kubernetes. It contains tools for:
 
 - Monitoring, Alerting, Logging
 - Ingress based adding of DNS entries and TLS Certificates
